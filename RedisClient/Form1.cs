@@ -1,13 +1,9 @@
 ﻿using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace RedisClient
 {
@@ -18,12 +14,21 @@ namespace RedisClient
         string[] ReadWriteConStr = new string[1];
         DataTable table1, table2;
         public static IRedisClient client;
+        XmlDocument doc;
+        XmlNodeList nodeList;
 
         string Filter = "";
 
         public Form1()
         {
             InitializeComponent();
+            doc = new XmlDocument();
+            doc.Load("connection.xml");
+            nodeList = doc.SelectNodes("connection/server");
+            foreach (XmlNode item in nodeList)
+            {
+                txtPreset.Properties.Items.Add(item.Attributes["ip"].Value);
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -51,19 +56,22 @@ namespace RedisClient
             client.Db = long.Parse(txtDB.Text);
             List<string> list = client.SearchKeys("*");
             table1 = new DataTable();
+            table1.Columns.Add("Check", System.Type.GetType("System.Boolean"));
             table1.Columns.Add("Keys");
             DataRow row;
             foreach (string key in list)
             {
                 row = table1.NewRow();
-                row[0] = key;
+                row[0] = false;
+                row[1] = key;
                 table1.Rows.Add(row);
             }
             grdKeys.DataSource = table1;
             gridView1.PopulateColumns();
-            gridView1.Columns[0].OptionsColumn.ReadOnly = true;
-            gridView1.Columns[0].OptionsColumn.AllowEdit = false;
-            gridView1.Columns[0].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+            gridView1.Columns[0].MaxWidth = 30;
+            gridView1.Columns[1].OptionsColumn.ReadOnly = true;
+            gridView1.Columns[1].OptionsColumn.AllowEdit = false;
+            gridView1.Columns[1].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
             gridView1.MoveFirst();
         }
 
@@ -79,19 +87,34 @@ namespace RedisClient
             {
                 return;
             }
-            int[] index = gridView1.GetSelectedRows();
-            string key = gridView1.GetRowCellDisplayText(index[0], "Keys");
-            if (MessageBox.Show("Delete " + key + "?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            string key = "";
+            List<string> keyList = new List<string>();
+            for (int a = 0; a < gridView1.RowCount; a++)
             {
-                client.Remove(key);
-                this.btnSearch_Click(null, null);
+                if (gridView1.GetDataRow(a)["Check"].ToString() == "True")
+                {
+                    key = gridView1.GetRowCellValue(a, "Keys").ToString();
+                    keyList.Add(key);
+                }
+            }
+            if (keyList.Count == 0)
+            {
+                MessageBox.Show("Please Select a Key to Delete", "Null", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                if (MessageBox.Show("Delete " + keyList.Count + " Keys?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    client.RemoveAll(keyList);
+                    this.btnSearch_Click(null, null);
+                }
             }
         }
 
         private void gridView1_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
             DataRow row = gridView1.GetDataRow(e.RowHandle);
-            string key = row[0].ToString();
+            string key = row[1].ToString();
             if (client.GetEntryType(key) == RedisKeyType.None)
             {
                 MessageBox.Show("Key Does Not Exist or Expired", "Null", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -213,7 +236,7 @@ namespace RedisClient
 
             grdData.DataSource = table2;
             gridView2.PopulateColumns();
-            txtFilter.Text = key;
+            // txtFilter.Text = key;
         }
 
         private void txtFilter_KeyUp(object sender, KeyEventArgs e)
@@ -241,7 +264,7 @@ namespace RedisClient
                 return;
             }
             int[] index = gridView1.GetSelectedRows();
-            string hashKey = gridView1.GetRowCellDisplayText(index[0], "Keys");
+            string hashKey = gridView1.GetRowCellDisplayText(index[1], "Keys");
             if (MessageBox.Show("提交" + hashKey + "的改动？", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 DataRow row;
@@ -422,6 +445,59 @@ namespace RedisClient
                 }
                 txtExpire.Text = "";
             }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (txtIP.Text == "" || txtPassword.Text == "")
+            {
+                return;
+            }
+            foreach (XmlNode item in nodeList)
+            {
+                if (item.Attributes["ip"].Value == txtIP.Text)
+                {
+                    item.Attributes["port"].Value = txtPort.Text;
+                    item.Attributes["password"].Value = txtPassword.Text;
+                    doc.Save("connection.xml");
+                    return;
+                }
+            }
+            XmlElement element = doc.CreateElement("server");
+            element.SetAttribute("ip", txtIP.Text);
+            element.SetAttribute("port", txtPort.Text);
+            element.SetAttribute("password", txtPassword.Text);
+            doc.SelectNodes("connection").Item(0).AppendChild(element);
+            doc.Save("connection.xml");
+            nodeList = doc.SelectNodes("connection/server");
+            txtPreset.Properties.Items.Add(txtIP.Text);
+            txtPreset.Text = txtIP.Text;
+        }
+
+        private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Text == "Copy")
+            {
+                if (gridView1.RowCount == 0)
+                {
+                    return;
+                }
+                int index = gridView1.GetSelectedRows()[0];
+                string key = gridView1.GetDataRow(index)[1].ToString();
+                Clipboard.SetText(key);
+            }
+        }
+
+        private void txtPreset_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (nodeList == null)
+            {
+                return;
+            }
+            int index = txtPreset.SelectedIndex;
+            txtIP.Text = nodeList.Item(index).Attributes["ip"].Value;
+            txtPort.Text = nodeList.Item(index).Attributes["port"].Value;
+            txtPassword.Text = nodeList.Item(index).Attributes["password"].Value;
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)

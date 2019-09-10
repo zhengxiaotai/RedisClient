@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<connection>
+  <server ip="172.20.18.200" port="6379" password="admin"></server>
+</connection>
