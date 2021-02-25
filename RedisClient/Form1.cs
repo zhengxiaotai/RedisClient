@@ -264,7 +264,7 @@ namespace RedisClient
                 return;
             }
             int[] index = gridView1.GetSelectedRows();
-            string hashKey = gridView1.GetRowCellDisplayText(index[1], "Keys");
+            string hashKey = gridView1.GetRowCellDisplayText(index[0], "Keys");
             if (MessageBox.Show("提交" + hashKey + "的改动？", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 DataRow row;
