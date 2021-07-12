@@ -30,8 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.splashScreenManager1 = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::RedisClient.WaitForm1), true, true);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.btnPassword = new DevExpress.XtraEditors.CheckButton();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.txtPreset = new DevExpress.XtraEditors.ComboBoxEdit();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
@@ -103,6 +105,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtFilter.Properties)).BeginInit();
             this.SuspendLayout();
             // 
+            // splashScreenManager1
+            // 
+            this.splashScreenManager1.ClosingDelay = 500;
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -110,18 +116,18 @@
             this.tableLayoutPanel1.Controls.Add(this.groupControl1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(7, 6);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 5);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(868, 691);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(674, 552);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.btnPassword);
             this.groupControl1.Controls.Add(this.labelControl5);
             this.groupControl1.Controls.Add(this.txtPreset);
             this.groupControl1.Controls.Add(this.btnSave);
@@ -135,48 +141,54 @@
             this.groupControl1.Controls.Add(this.txtIP);
             this.groupControl1.Controls.Add(this.txtPort);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl1.Location = new System.Drawing.Point(4, 4);
-            this.groupControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupControl1.Location = new System.Drawing.Point(3, 3);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(860, 92);
+            this.groupControl1.Size = new System.Drawing.Size(668, 74);
             this.groupControl1.TabIndex = 0;
             this.groupControl1.Text = "Connection Info";
             // 
+            // btnPassword
+            // 
+            this.btnPassword.Image = ((System.Drawing.Image)(resources.GetObject("btnPassword.Image")));
+            this.btnPassword.Location = new System.Drawing.Point(439, 36);
+            this.btnPassword.Name = "btnPassword";
+            this.btnPassword.Size = new System.Drawing.Size(24, 23);
+            this.btnPassword.TabIndex = 16;
+            this.btnPassword.CheckedChanged += new System.EventHandler(this.btnPassword_CheckedChanged);
+            // 
             // labelControl5
             // 
-            this.labelControl5.Location = new System.Drawing.Point(14, 50);
-            this.labelControl5.Margin = new System.Windows.Forms.Padding(4);
+            this.labelControl5.Location = new System.Drawing.Point(10, 40);
             this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(41, 18);
+            this.labelControl5.Size = new System.Drawing.Size(35, 14);
             this.labelControl5.TabIndex = 15;
             this.labelControl5.Text = "Preset";
             // 
             // txtPreset
             // 
-            this.txtPreset.Location = new System.Drawing.Point(62, 47);
+            this.txtPreset.Location = new System.Drawing.Point(46, 38);
+            this.txtPreset.Margin = new System.Windows.Forms.Padding(2);
             this.txtPreset.Name = "txtPreset";
             this.txtPreset.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.txtPreset.Size = new System.Drawing.Size(90, 24);
+            this.txtPreset.Size = new System.Drawing.Size(68, 20);
             this.txtPreset.TabIndex = 14;
             this.txtPreset.SelectedIndexChanged += new System.EventHandler(this.txtPreset_SelectedIndexChanged);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(795, 44);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSave.Location = new System.Drawing.Point(624, 35);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(50, 29);
+            this.btnSave.Size = new System.Drawing.Size(38, 23);
             this.btnSave.TabIndex = 9;
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(677, 44);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSearch.Location = new System.Drawing.Point(536, 35);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(110, 29);
+            this.btnSearch.Size = new System.Drawing.Size(82, 23);
             this.btnSearch.TabIndex = 8;
             this.btnSearch.Text = "Search";
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
@@ -184,8 +196,7 @@
             // txtDB
             // 
             this.txtDB.EditValue = "0";
-            this.txtDB.Location = new System.Drawing.Point(619, 47);
-            this.txtDB.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDB.Location = new System.Drawing.Point(492, 38);
             this.txtDB.Name = "txtDB";
             this.txtDB.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -206,70 +217,63 @@
             "13",
             "14",
             "15"});
-            this.txtDB.Size = new System.Drawing.Size(50, 24);
+            this.txtDB.Size = new System.Drawing.Size(38, 20);
             this.txtDB.TabIndex = 7;
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(312, 50);
-            this.labelControl2.Margin = new System.Windows.Forms.Padding(4);
+            this.labelControl2.Location = new System.Drawing.Point(234, 40);
             this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(26, 18);
+            this.labelControl2.Size = new System.Drawing.Size(23, 14);
             this.labelControl2.TabIndex = 2;
             this.labelControl2.Text = "Port";
             // 
             // labelControl4
             // 
-            this.labelControl4.Location = new System.Drawing.Point(591, 50);
-            this.labelControl4.Margin = new System.Windows.Forms.Padding(4);
+            this.labelControl4.Location = new System.Drawing.Point(471, 40);
             this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(19, 18);
+            this.labelControl4.Size = new System.Drawing.Size(15, 14);
             this.labelControl4.TabIndex = 6;
             this.labelControl4.Text = "DB";
             // 
             // labelControl3
             // 
-            this.labelControl3.Location = new System.Drawing.Point(434, 50);
-            this.labelControl3.Margin = new System.Windows.Forms.Padding(4);
+            this.labelControl3.Location = new System.Drawing.Point(326, 40);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(61, 18);
+            this.labelControl3.Size = new System.Drawing.Size(51, 14);
             this.labelControl3.TabIndex = 4;
             this.labelControl3.Text = "Password";
             // 
             // txtPassword
             // 
             this.txtPassword.EditValue = "";
-            this.txtPassword.Location = new System.Drawing.Point(503, 47);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPassword.Location = new System.Drawing.Point(377, 38);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(80, 24);
+            this.txtPassword.Size = new System.Drawing.Size(60, 20);
             this.txtPassword.TabIndex = 5;
             // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(172, 50);
-            this.labelControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.labelControl1.Location = new System.Drawing.Point(129, 40);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(14, 18);
+            this.labelControl1.Size = new System.Drawing.Size(11, 14);
             this.labelControl1.TabIndex = 0;
             this.labelControl1.Text = "IP";
             // 
             // txtIP
             // 
             this.txtIP.EditValue = "";
-            this.txtIP.Location = new System.Drawing.Point(194, 47);
-            this.txtIP.Margin = new System.Windows.Forms.Padding(4);
+            this.txtIP.Location = new System.Drawing.Point(146, 38);
             this.txtIP.Name = "txtIP";
-            this.txtIP.Size = new System.Drawing.Size(110, 24);
+            this.txtIP.Size = new System.Drawing.Size(82, 20);
             this.txtIP.TabIndex = 1;
             // 
             // txtPort
             // 
             this.txtPort.EditValue = "";
-            this.txtPort.Location = new System.Drawing.Point(346, 47);
-            this.txtPort.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPort.Location = new System.Drawing.Point(260, 38);
             this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(80, 24);
+            this.txtPort.Size = new System.Drawing.Size(60, 20);
             this.txtPort.TabIndex = 3;
             // 
             // tableLayoutPanel2
@@ -280,12 +284,12 @@
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 100);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 80);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(868, 591);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(674, 472);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // tableLayoutPanel3
@@ -295,35 +299,32 @@
             this.tableLayoutPanel3.Controls.Add(this.groupControl5, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.groupControl4, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(390, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(303, 0);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 81F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(478, 591);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(371, 472);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupControl5
             // 
             this.groupControl5.Controls.Add(this.grdData);
             this.groupControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl5.Location = new System.Drawing.Point(4, 85);
-            this.groupControl5.Margin = new System.Windows.Forms.Padding(4);
+            this.groupControl5.Location = new System.Drawing.Point(3, 68);
             this.groupControl5.Name = "groupControl5";
-            this.groupControl5.Size = new System.Drawing.Size(470, 502);
+            this.groupControl5.Size = new System.Drawing.Size(365, 401);
             this.groupControl5.TabIndex = 4;
             this.groupControl5.Text = "Data";
             // 
             // grdData
             // 
             this.grdData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdData.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4);
-            this.grdData.Location = new System.Drawing.Point(2, 27);
+            this.grdData.Location = new System.Drawing.Point(2, 21);
             this.grdData.MainView = this.gridView2;
-            this.grdData.Margin = new System.Windows.Forms.Padding(4);
             this.grdData.Name = "grdData";
-            this.grdData.Size = new System.Drawing.Size(466, 473);
+            this.grdData.Size = new System.Drawing.Size(361, 378);
             this.grdData.TabIndex = 0;
             this.grdData.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -356,39 +357,35 @@
             this.groupControl4.Controls.Add(this.btnAddKeyValue);
             this.groupControl4.Controls.Add(this.btnModify);
             this.groupControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl4.Location = new System.Drawing.Point(4, 4);
-            this.groupControl4.Margin = new System.Windows.Forms.Padding(4);
+            this.groupControl4.Location = new System.Drawing.Point(3, 3);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(470, 73);
+            this.groupControl4.Size = new System.Drawing.Size(365, 59);
             this.groupControl4.TabIndex = 3;
             this.groupControl4.Text = "Data Options";
             // 
             // btnDeleteKeyValue
             // 
-            this.btnDeleteKeyValue.Location = new System.Drawing.Point(101, 34);
-            this.btnDeleteKeyValue.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteKeyValue.Location = new System.Drawing.Point(96, 27);
             this.btnDeleteKeyValue.Name = "btnDeleteKeyValue";
-            this.btnDeleteKeyValue.Size = new System.Drawing.Size(80, 29);
+            this.btnDeleteKeyValue.Size = new System.Drawing.Size(80, 23);
             this.btnDeleteKeyValue.TabIndex = 13;
             this.btnDeleteKeyValue.Text = "Delete";
             this.btnDeleteKeyValue.Click += new System.EventHandler(this.btnDeleteKeyValue_Click);
             // 
             // btnAddKeyValue
             // 
-            this.btnAddKeyValue.Location = new System.Drawing.Point(13, 34);
-            this.btnAddKeyValue.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddKeyValue.Location = new System.Drawing.Point(10, 27);
             this.btnAddKeyValue.Name = "btnAddKeyValue";
-            this.btnAddKeyValue.Size = new System.Drawing.Size(80, 29);
+            this.btnAddKeyValue.Size = new System.Drawing.Size(80, 23);
             this.btnAddKeyValue.TabIndex = 12;
             this.btnAddKeyValue.Text = "Add";
             this.btnAddKeyValue.Click += new System.EventHandler(this.btnAddKeyValue_Click);
             // 
             // btnModify
             // 
-            this.btnModify.Location = new System.Drawing.Point(189, 34);
-            this.btnModify.Margin = new System.Windows.Forms.Padding(4);
+            this.btnModify.Location = new System.Drawing.Point(182, 27);
             this.btnModify.Name = "btnModify";
-            this.btnModify.Size = new System.Drawing.Size(80, 29);
+            this.btnModify.Size = new System.Drawing.Size(80, 23);
             this.btnModify.TabIndex = 2;
             this.btnModify.Text = "Apply";
             this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
@@ -404,19 +401,18 @@
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(390, 591);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(303, 472);
             this.tableLayoutPanel4.TabIndex = 5;
             // 
             // groupControl2
             // 
             this.groupControl2.Controls.Add(this.grdKeys);
             this.groupControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl2.Location = new System.Drawing.Point(4, 154);
-            this.groupControl2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupControl2.Location = new System.Drawing.Point(3, 123);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(382, 433);
+            this.groupControl2.Size = new System.Drawing.Size(297, 346);
             this.groupControl2.TabIndex = 1;
             this.groupControl2.Text = "Keys";
             // 
@@ -424,15 +420,13 @@
             // 
             this.grdKeys.ContextMenuStrip = this.contextMenuStrip1;
             this.grdKeys.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdKeys.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(4);
-            this.grdKeys.Location = new System.Drawing.Point(2, 27);
+            this.grdKeys.Location = new System.Drawing.Point(2, 21);
             this.grdKeys.MainView = this.gridView1;
-            this.grdKeys.Margin = new System.Windows.Forms.Padding(4);
             this.grdKeys.Name = "grdKeys";
             this.grdKeys.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemCheckEdit1,
             this.repositoryItemCheckEdit2});
-            this.grdKeys.Size = new System.Drawing.Size(378, 404);
+            this.grdKeys.Size = new System.Drawing.Size(293, 323);
             this.grdKeys.TabIndex = 2;
             this.grdKeys.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -443,13 +437,13 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuCopy});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(117, 28);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(107, 26);
             this.contextMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStrip1_ItemClicked);
             // 
             // menuCopy
             // 
             this.menuCopy.Name = "menuCopy";
-            this.menuCopy.Size = new System.Drawing.Size(116, 24);
+            this.menuCopy.Size = new System.Drawing.Size(106, 22);
             this.menuCopy.Text = "Copy";
             // 
             // gridView1
@@ -503,57 +497,51 @@
             this.groupControl3.Controls.Add(this.btnFlush);
             this.groupControl3.Controls.Add(this.btnDelete);
             this.groupControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl3.Location = new System.Drawing.Point(4, 4);
-            this.groupControl3.Margin = new System.Windows.Forms.Padding(4);
+            this.groupControl3.Location = new System.Drawing.Point(3, 3);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(382, 142);
+            this.groupControl3.Size = new System.Drawing.Size(297, 114);
             this.groupControl3.TabIndex = 5;
             this.groupControl3.Text = "Key Options";
             // 
             // txtExpire
             // 
             this.txtExpire.EditValue = "";
-            this.txtExpire.Location = new System.Drawing.Point(107, 108);
-            this.txtExpire.Margin = new System.Windows.Forms.Padding(4);
+            this.txtExpire.Location = new System.Drawing.Point(98, 86);
             this.txtExpire.Name = "txtExpire";
-            this.txtExpire.Size = new System.Drawing.Size(83, 24);
+            this.txtExpire.Size = new System.Drawing.Size(80, 20);
             this.txtExpire.TabIndex = 9;
             // 
             // btnExpire
             // 
-            this.btnExpire.Location = new System.Drawing.Point(16, 106);
-            this.btnExpire.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExpire.Location = new System.Drawing.Point(12, 85);
             this.btnExpire.Name = "btnExpire";
-            this.btnExpire.Size = new System.Drawing.Size(83, 29);
+            this.btnExpire.Size = new System.Drawing.Size(80, 23);
             this.btnExpire.TabIndex = 14;
             this.btnExpire.Text = "Expire";
             this.btnExpire.Click += new System.EventHandler(this.btnExpire_Click);
             // 
             // btnAddKey
             // 
-            this.btnAddKey.Location = new System.Drawing.Point(16, 70);
-            this.btnAddKey.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAddKey.Location = new System.Drawing.Point(12, 56);
             this.btnAddKey.Name = "btnAddKey";
-            this.btnAddKey.Size = new System.Drawing.Size(83, 29);
+            this.btnAddKey.Size = new System.Drawing.Size(80, 23);
             this.btnAddKey.TabIndex = 11;
             this.btnAddKey.Text = "Add";
             this.btnAddKey.Click += new System.EventHandler(this.btnAddKey_Click);
             // 
             // txtFilter
             // 
-            this.txtFilter.Location = new System.Drawing.Point(16, 35);
-            this.txtFilter.Margin = new System.Windows.Forms.Padding(4);
+            this.txtFilter.Location = new System.Drawing.Point(12, 28);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(174, 24);
+            this.txtFilter.Size = new System.Drawing.Size(166, 20);
             this.txtFilter.TabIndex = 2;
             this.txtFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter_KeyUp);
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(198, 34);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(4);
+            this.btnClear.Location = new System.Drawing.Point(184, 27);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(82, 29);
+            this.btnClear.Size = new System.Drawing.Size(80, 23);
             this.btnClear.TabIndex = 9;
             this.btnClear.Text = "Clear";
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -562,34 +550,31 @@
             // 
             this.btnFlush.Appearance.ForeColor = System.Drawing.Color.Red;
             this.btnFlush.Appearance.Options.UseForeColor = true;
-            this.btnFlush.Location = new System.Drawing.Point(197, 70);
-            this.btnFlush.Margin = new System.Windows.Forms.Padding(4);
+            this.btnFlush.Location = new System.Drawing.Point(184, 56);
             this.btnFlush.Name = "btnFlush";
-            this.btnFlush.Size = new System.Drawing.Size(83, 29);
+            this.btnFlush.Size = new System.Drawing.Size(80, 23);
             this.btnFlush.TabIndex = 3;
             this.btnFlush.Text = "Flush DB";
             this.btnFlush.Click += new System.EventHandler(this.btnFlush_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(107, 70);
-            this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDelete.Location = new System.Drawing.Point(98, 56);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(83, 29);
+            this.btnDelete.Size = new System.Drawing.Size(80, 23);
             this.btnDelete.TabIndex = 0;
             this.btnDelete.Text = "Delete";
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 703);
+            this.ClientSize = new System.Drawing.Size(684, 562);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
-            this.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "Redis Client";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -670,6 +655,8 @@
         private DevExpress.XtraEditors.LabelControl labelControl5;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuCopy;
+        private DevExpress.XtraEditors.CheckButton btnPassword;
+        private DevExpress.XtraSplashScreen.SplashScreenManager splashScreenManager1;
     }
 }
 

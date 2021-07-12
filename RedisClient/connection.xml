@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <connection>
-  <server ip="172.20.18.200" port="6379" password="admin"></server>
+  <server ip="218.241.189.6" port="26379" hasPassword="true" password="admin"></server>
 </connection>

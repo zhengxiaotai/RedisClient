@@ -1,4 +1,5 @@
-﻿using ServiceStack.Redis;
+﻿using DevExpress.Utils;
+using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,46 +34,64 @@ namespace RedisClient
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string str = "";
-            if (string.IsNullOrEmpty(txtPassword.Text))
+            if (txtIP.Text == "" || txtPort.Text == "")
             {
-                ReadWriteConStr[0] = "redis://" + txtIP.Text + ":" + txtPort.Text;
-                str = txtIP.Text + ":" + txtPort.Text;
+                return;
             }
-            else
-            {;
-                ReadWriteConStr[0] = "redis://" + txtPassword.Text + "@" + txtIP.Text + ":" + txtPort.Text;
-                str = txtPassword.Text + "@" + txtIP.Text + ":" + txtPort.Text;
-            }
+            splashScreenManager1.ShowWaitForm();
+            splashScreenManager1.SetWaitFormDescription("Connecting...");
+            try
+            {
+                string str = "";
+                if (btnPassword.Checked)
+                {
+                    ReadWriteConStr[0] = "redis://" + txtIP.Text + ":" + txtPort.Text;
+                    str = txtIP.Text + ":" + txtPort.Text;
+                }
+                else
+                {
+                    ;
+                    ReadWriteConStr[0] = "redis://" + txtPassword.Text + "@" + txtIP.Text + ":" + txtPort.Text;
+                    str = txtPassword.Text + "@" + txtIP.Text + ":" + txtPort.Text;
+                }
 
-            if (!str.Equals(connStr))
-            {
-                PooledRedisClientManager manager = new PooledRedisClientManager(200, 200, ReadWriteConStr);
-                RedisConfig.VerifyMasterConnections = false;
-                client = manager.GetClient();
-                connStr = str;
-            }
+                if (!str.Equals(connStr))
+                {
+                    PooledRedisClientManager manager = new PooledRedisClientManager(200, 200, ReadWriteConStr);
+                    RedisConfig.VerifyMasterConnections = false;
+                    client = manager.GetClient();
+                    connStr = str;
+                }
 
-            client.Db = long.Parse(txtDB.Text);
-            List<string> list = client.SearchKeys("*");
-            table1 = new DataTable();
-            table1.Columns.Add("Check", System.Type.GetType("System.Boolean"));
-            table1.Columns.Add("Keys");
-            DataRow row;
-            foreach (string key in list)
-            {
-                row = table1.NewRow();
-                row[0] = false;
-                row[1] = key;
-                table1.Rows.Add(row);
+                client.Db = long.Parse(txtDB.Text);
+                List<string> list = client.SearchKeys("*");
+
+                splashScreenManager1.SetWaitFormDescription("Loading Data...");
+                table1 = new DataTable();
+                table1.Columns.Add("Check", System.Type.GetType("System.Boolean"));
+                table1.Columns.Add("Keys");
+                DataRow row;
+                foreach (string key in list)
+                {
+                    row = table1.NewRow();
+                    row[0] = false;
+                    row[1] = key;
+                    table1.Rows.Add(row);
+                }
+                grdKeys.DataSource = table1;
+                gridView1.PopulateColumns();
+                gridView1.Columns[0].MaxWidth = 30;
+                gridView1.Columns[1].OptionsColumn.ReadOnly = true;
+                gridView1.Columns[1].OptionsColumn.AllowEdit = false;
+                gridView1.Columns[1].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+                gridView1.MoveFirst();
             }
-            grdKeys.DataSource = table1;
-            gridView1.PopulateColumns();
-            gridView1.Columns[0].MaxWidth = 30;
-            gridView1.Columns[1].OptionsColumn.ReadOnly = true;
-            gridView1.Columns[1].OptionsColumn.AllowEdit = false;
-            gridView1.Columns[1].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
-            gridView1.MoveFirst();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show(ex.Message, "Null", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            splashScreenManager1.CloseWaitForm();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -449,7 +468,7 @@ namespace RedisClient
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (txtIP.Text == "" || txtPassword.Text == "")
+            if (txtIP.Text == "" || txtPort.Text == "")
             {
                 return;
             }
@@ -458,6 +477,7 @@ namespace RedisClient
                 if (item.Attributes["ip"].Value == txtIP.Text)
                 {
                     item.Attributes["port"].Value = txtPort.Text;
+                    item.Attributes["hasPassword"].Value = btnPassword.Checked.ToString();
                     item.Attributes["password"].Value = txtPassword.Text;
                     doc.Save("connection.xml");
                     return;
@@ -466,6 +486,7 @@ namespace RedisClient
             XmlElement element = doc.CreateElement("server");
             element.SetAttribute("ip", txtIP.Text);
             element.SetAttribute("port", txtPort.Text);
+            element.SetAttribute("hasPassword", btnPassword.Checked.ToString());
             element.SetAttribute("password", txtPassword.Text);
             doc.SelectNodes("connection").Item(0).AppendChild(element);
             doc.Save("connection.xml");
@@ -497,7 +518,30 @@ namespace RedisClient
             int index = txtPreset.SelectedIndex;
             txtIP.Text = nodeList.Item(index).Attributes["ip"].Value;
             txtPort.Text = nodeList.Item(index).Attributes["port"].Value;
-            txtPassword.Text = nodeList.Item(index).Attributes["password"].Value;
+            if (nodeList.Item(index).Attributes["hasPassword"].Value.Equals("false"))
+            {
+                btnPassword.Checked = true;
+                txtPassword.Text = "";
+            }
+            else
+            {
+                btnPassword.Checked = false;
+                txtPassword.Text = nodeList.Item(index).Attributes["password"].Value;
+            }
+            
+        }
+
+        private void btnPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            if (btnPassword.Checked)
+            {
+                txtPassword.Text = "";
+                txtPassword.Enabled = false;
+            }
+            else
+            {
+                txtPassword.Enabled = true;
+            }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
