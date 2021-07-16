@@ -63,8 +63,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.keys = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.repositoryItemCheckEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
@@ -449,33 +448,25 @@
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn4,
-            this.gridColumn1});
+            this.keys});
             this.gridView1.GridControl = this.grdKeys;
             this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsSelection.CheckBoxSelectorColumnWidth = 30;
+            this.gridView1.OptionsSelection.MultiSelect = true;
+            this.gridView1.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
             this.gridView1.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
-            new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.gridColumn1, DevExpress.Data.ColumnSortOrder.Ascending)});
+            new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.keys, DevExpress.Data.ColumnSortOrder.Ascending)});
             this.gridView1.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView1_RowClick);
             // 
-            // gridColumn4
+            // keys
             // 
-            this.gridColumn4.Caption = "Check";
-            this.gridColumn4.MaxWidth = 30;
-            this.gridColumn4.MinWidth = 30;
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 0;
-            this.gridColumn4.Width = 30;
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "Keys";
-            this.gridColumn1.ColumnEdit = this.repositoryItemCheckEdit1;
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.OptionsColumn.AllowEdit = false;
-            this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 1;
-            this.gridColumn1.Width = 246;
+            this.keys.Caption = "Keys";
+            this.keys.ColumnEdit = this.repositoryItemCheckEdit1;
+            this.keys.Name = "keys";
+            this.keys.OptionsColumn.AllowEdit = false;
+            this.keys.Visible = true;
+            this.keys.VisibleIndex = 1;
+            this.keys.Width = 215;
             // 
             // repositoryItemCheckEdit1
             // 
@@ -628,7 +619,7 @@
         private DevExpress.XtraGrid.GridControl grdKeys;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.SimpleButton btnClear;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraGrid.Columns.GridColumn keys;
         private DevExpress.XtraEditors.GroupControl groupControl4;
         private DevExpress.XtraEditors.GroupControl groupControl5;
         private DevExpress.XtraGrid.GridControl grdData;
@@ -648,7 +639,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private DevExpress.XtraEditors.GroupControl groupControl3;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit2;
         private DevExpress.XtraEditors.SimpleButton btnSave;
         private DevExpress.XtraEditors.ComboBoxEdit txtPreset;

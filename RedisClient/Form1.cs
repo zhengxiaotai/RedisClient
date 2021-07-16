@@ -1,4 +1,5 @@
 ﻿using DevExpress.Utils;
+using DevExpress.XtraEditors.Repository;
 using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
@@ -57,33 +58,32 @@ namespace RedisClient
 
                 if (!str.Equals(connStr))
                 {
+                    Console.WriteLine("new connection");
                     PooledRedisClientManager manager = new PooledRedisClientManager(200, 200, ReadWriteConStr);
                     RedisConfig.VerifyMasterConnections = false;
                     client = manager.GetClient();
                     connStr = str;
                 }
 
+                splashScreenManager1.SetWaitFormDescription("Executing Query...");
                 client.Db = long.Parse(txtDB.Text);
                 List<string> list = client.SearchKeys("*");
-
                 splashScreenManager1.SetWaitFormDescription("Loading Data...");
+
                 table1 = new DataTable();
-                table1.Columns.Add("Check", System.Type.GetType("System.Boolean"));
                 table1.Columns.Add("Keys");
                 DataRow row;
                 foreach (string key in list)
                 {
                     row = table1.NewRow();
-                    row[0] = false;
-                    row[1] = key;
+                    row[0] = key;
                     table1.Rows.Add(row);
                 }
                 grdKeys.DataSource = table1;
                 gridView1.PopulateColumns();
-                gridView1.Columns[0].MaxWidth = 30;
-                gridView1.Columns[1].OptionsColumn.ReadOnly = true;
-                gridView1.Columns[1].OptionsColumn.AllowEdit = false;
-                gridView1.Columns[1].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+                gridView1.Columns[0].OptionsColumn.ReadOnly = false;
+                gridView1.Columns[0].OptionsColumn.AllowEdit = false;
+                gridView1.Columns[0].SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
                 gridView1.MoveFirst();
             }
             catch (Exception ex)
@@ -106,15 +106,12 @@ namespace RedisClient
             {
                 return;
             }
-            string key = "";
+            int[] selectRows = gridView1.GetSelectedRows();
             List<string> keyList = new List<string>();
-            for (int a = 0; a < gridView1.RowCount; a++)
+
+            foreach (int index in selectRows)
             {
-                if (gridView1.GetDataRow(a)["Check"].ToString() == "True")
-                {
-                    key = gridView1.GetRowCellValue(a, "Keys").ToString();
-                    keyList.Add(key);
-                }
+                keyList.Add(gridView1.GetRowCellValue(index, "Keys").ToString());
             }
             if (keyList.Count == 0)
             {
@@ -124,8 +121,11 @@ namespace RedisClient
             {
                 if (MessageBox.Show("Delete " + keyList.Count + " Keys?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    splashScreenManager1.ShowWaitForm();
+                    splashScreenManager1.SetWaitFormDescription("Deleting...");
                     client.RemoveAll(keyList);
                     this.btnSearch_Click(null, null);
+                    splashScreenManager1.CloseWaitForm();
                 }
             }
         }
@@ -133,7 +133,7 @@ namespace RedisClient
         private void gridView1_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
             DataRow row = gridView1.GetDataRow(e.RowHandle);
-            string key = row[1].ToString();
+            string key = row[0].ToString();
             if (client.GetEntryType(key) == RedisKeyType.None)
             {
                 MessageBox.Show("Key Does Not Exist or Expired", "Null", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -283,7 +283,7 @@ namespace RedisClient
                 return;
             }
             int[] index = gridView1.GetSelectedRows();
-            string hashKey = gridView1.GetRowCellDisplayText(index[0], "Keys");
+            string hashKey = gridView1.GetFocusedDataRow()[0].ToString();
             if (MessageBox.Show("提交" + hashKey + "的改动？", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 DataRow row;
@@ -369,8 +369,8 @@ namespace RedisClient
             {
                 return;
             }
-            int[] index = gridView1.GetSelectedRows();
-            if (index.Length == 0)
+            string key = gridView1.GetFocusedDataRow()[0].ToString();
+            if (key == null || key.Length == 0)
             {
                 return;
             }
@@ -384,12 +384,16 @@ namespace RedisClient
             {
                 return;
             }
-            int[] index = gridView1.GetSelectedRows();
-            if (index.Length == 0)
+            string key = gridView1.GetFocusedDataRow()[0].ToString();
+            if (key == null || key.Length == 0)
             {
                 return;
             }
-            index = gridView2.GetSelectedRows();
+            int[] index = gridView2.GetSelectedRows();
+            if (table2.Rows.Count < 1)
+            {
+                return;
+            }
             table2.Rows.RemoveAt(index[0]);
         }
         
@@ -403,12 +407,11 @@ namespace RedisClient
             {
                 return;
             }
-            int[] index = gridView1.GetSelectedRows();
-            if (index.Length == 0)
+            string hashKey = gridView1.GetFocusedDataRow()[0].ToString();
+            if (hashKey == null || hashKey.Length == 0)
             {
                 return;
             }
-            string hashKey = gridView1.GetRowCellDisplayText(index[0], "Keys");
             if (btnExpire.Checked == false)
             {
                 TimeSpan expireTime = new TimeSpan(long.Parse(txtExpire.Text) * 10000000);
@@ -503,8 +506,7 @@ namespace RedisClient
                 {
                     return;
                 }
-                int index = gridView1.GetSelectedRows()[0];
-                string key = gridView1.GetDataRow(index)[1].ToString();
+                string key = gridView1.GetFocusedDataRow()[0].ToString();
                 Clipboard.SetText(key);
             }
         }
